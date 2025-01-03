@@ -122,3 +122,83 @@
   
 </body>
 </html>
+
+
+# AstraDB API Key = "AstraCS:swwQNSlNKCpmfHauszqlPlhi:3785b385a03861236523534263cb150424652b494668ab23e5e9d4c9ac03d092"
+
+
+from astrapy import DataAPIClient
+
+# Initialize the client with your application token
+client = DataAPIClient(
+    "AstraCS:swwQNSlNKCpmfHauszqlPlhi:3785b385a03861236523534263cb150424652b494668ab23e5e9d4c9ac03d092"
+)
+
+# Connect to the database
+db = client.get_database_by_api_endpoint(
+    "https://45117c3b-acc1-4028-b3c2-f72f81b53f39-us-east-2.apps.astra.datastax.com"
+)
+
+# Define the collection name
+collection_name = "EngagementData"
+
+# Create the collection if it doesn't exist
+if collection_name not in db.list_collection_names():
+    db.create_collection(collection_name)
+
+print(f"Collections in database: {db.list_collection_names()}")
+
+# Connect to the collection
+collection = db[collection_name]
+
+# Define mock data
+mock_data2 = [
+    {"post_type": "carousel", "likes": 120, "shares": 30, "comments": 15},
+    {"post_type": "carousel", "likes": 150, "shares": 25, "comments": 20},
+    {"post_type": "carousel", "likes": 130, "shares": 35, "comments": 18},
+    {"post_type": "carousel", "likes": 160, "shares": 40, "comments": 25},
+    {"post_type": "carousel", "likes": 140, "shares": 20, "comments": 22},
+    {"post_type": "reels", "likes": 200, "shares": 50, "comments": 40},
+    {"post_type": "reels", "likes": 220, "shares": 55, "comments": 45},
+    {"post_type": "reels", "likes": 210, "shares": 60, "comments": 50},
+    {"post_type": "reels", "likes": 230, "shares": 65, "comments": 55},
+    {"post_type": "reels", "likes": 240, "shares": 70, "comments": 60},
+    {"post_type": "static", "likes": 80, "shares": 20, "comments": 10},
+    {"post_type": "static", "likes": 90, "shares": 15, "comments": 12},
+    {"post_type": "static", "likes": 85, "shares": 18, "comments": 11},
+    {"post_type": "static", "likes": 95, "shares": 22, "comments": 14},
+    {"post_type": "static", "likes": 78, "shares": 19, "comments": 9},
+    {"post_type": "carousel", "likes": 135, "shares": 33, "comments": 17},
+    {"post_type": "carousel", "likes": 145, "shares": 29, "comments": 21},
+    {"post_type": "reels", "likes": 215, "shares": 57, "comments": 48},
+    {"post_type": "reels", "likes": 225, "shares": 62, "comments": 53},
+    {"post_type": "static", "likes": 88, "shares": 16, "comments": 13},
+    {"post_type": "static", "likes": 92, "shares": 21, "comments": 15},
+    {"post_type": "carousel", "likes": 155, "shares": 32, "comments": 24},
+    {"post_type": "carousel", "likes": 165, "shares": 38, "comments": 28},
+    {"post_type":"reels","likes" :250,"shares" :80,"comments" :75},
+    {"post_type":"reels","likes" :260,"shares" :85,"comments" :78},
+    {"post_type":"static","likes" :82,"shares" :18,"comments" :8},
+    {"post_type":"static","likes" :76,"shares" :14,"comments" :7},
+    {"post_type":"carousel","likes" :140,"shares" :45,"comments" :20},
+    {"post_type":"carousel","likes" :150,"shares" :48,"comments" :23},
+    {"post_type":"reels","likes" :270,"shares" :90,"comments" :80},
+    {"post_type":"reels","likes" :280,"shares" :95,"comments" :85},
+    {"post_type":"static","likes" :75,"shares" :12,"comments" :6},
+    {"post_type":"static","likes" :70,"shares" :10,"comments" :5},
+    {"post_type":"carousel","likes" :125,"shares" :28,"comments" :19},
+    {"post_type":"carousel","likes" :145,"shares" :34,"comments" :22},
+    {"post_type":"reels","likes" :290,"shares" :100,"comments" :90},
+    {"post_type":"reels","likes" :300,"shares" :105,"comments" :95},
+    {"post_type":"static","likes" :65,"shares" :8,"comments" :4},
+    {"post_type":"static","likes" :60,"shares" :6,"comments" :3}
+]
+
+
+# Insert data
+for data in mock_data2:
+    collection.insert_one(data)
+
+print(f"Inserted {len(mock_data2)} documents into {collection_name}")
+
+        
